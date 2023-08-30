@@ -18,7 +18,7 @@ class TitleFragment : Fragment() {
     ): View {
         binding = FragmentTitleBinding.inflate(inflater,container,false)
 
-        binding.b1.setOnClickListener{
+        binding.btnPlay.setOnClickListener{
             findNavController().navigate(R.id.action_titleFragment_to_gameFragment)
         }
 

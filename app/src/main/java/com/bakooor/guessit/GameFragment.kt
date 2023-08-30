@@ -5,31 +5,38 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.bakooor.guessit.databinding.FragmentGameBinding
 
-
-
 class GameFragment : Fragment() {
+
+    private lateinit var viewModel: GameViewModelFragment
+    private lateinit var binding: FragmentGameBinding
+    private lateinit var movieList: MutableList<String>
     private var word = ""
     private var score = 0
-    private lateinit var movieList: MutableList<String>
-    private lateinit var binding: FragmentGameBinding
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding= FragmentGameBinding.inflate(inflater)
+        binding = FragmentGameBinding.inflate(inflater, container, false)
+
+        viewModel = ViewModelProvider(this)[GameViewModelFragment::class.java]
         resetList()
         nextWord()
-        binding.b2.setOnClickListener { onCorrect() }
-        binding.b3.setOnClickListener { onSkip() }
         updateWord()
         updateScore()
+
+        binding.b2.setOnClickListener { onCorrect() }
+        binding.b3.setOnClickListener { onSkip() }
         return binding.root
     }
-    private fun resetList(){
-        movieList= mutableListOf(
+
+    private fun resetList() {
+        movieList = mutableListOf(
             "The Shawshank Redemption",
             "The Godfather",
             "The Dark Knight",
@@ -53,34 +60,38 @@ class GameFragment : Fragment() {
         )
         movieList.shuffle()
     }
-    private fun gameFinished(){
+
+    private fun gameFinished() {
         findNavController().navigate(GameFragmentDirections.actionGameFragmentToScoreFragment(score))
     }
+
     private fun nextWord() {
-        if (movieList.isEmpty()){
+        if (movieList.isEmpty()) {
             gameFinished()
-        }
-        else{
+        } else {
             word = movieList.removeAt(0)
         }
         updateScore()
         updateWord()
     }
-    private fun onCorrect(){
+
+    private fun onCorrect() {
         score++
         nextWord()
     }
-    private fun onSkip(){
+
+    private fun onSkip() {
         score--
         nextWord()
     }
 
 
-    private fun updateWord(){
-        binding.tv4.text=word
+    private fun updateWord() {
+        binding.tvWord.text = word
     }
-    private fun updateScore(){
-        binding.tvscore.text=score.toString()
+
+    private fun updateScore() {
+        binding.tvscore.text = score.toString()
     }
 
 
