@@ -9,9 +9,7 @@
         android:id="@+id/titleFragment"
         android:name="com.bakooor.guessit.TitleFragment"
         android:label="Game Start"
-        tools:layout="@layout/fragment_title"
-
-        >
+        tools:layout="@layout/fragment_title">
         <action
             android:id="@+id/action_titleFragment_to_gameFragment"
             app:destination="@id/gameFragment" />
